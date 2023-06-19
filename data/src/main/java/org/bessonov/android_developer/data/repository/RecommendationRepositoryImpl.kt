@@ -1,5 +1,7 @@
 package org.bessonov.android_developer.data.repository
 
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import org.bessonov.android_developer.data.database.RecommendationDao
 import org.bessonov.android_developer.data.mapper.RecommendationMapper
 import org.bessonov.android_developer.domain.model.Recommendation
@@ -10,9 +12,11 @@ class RecommendationRepositoryImpl(
     private val recommendationMapper: RecommendationMapper
 ) : RecommendationRepository {
 
-    override suspend fun getList(): List<Recommendation> {
-        return recommendationDao.getList().map { dbModel ->
-            recommendationMapper.mapDbModelToEntity(dbModel = dbModel)
+    override fun getList(): Flow<List<Recommendation>> {
+        return recommendationDao.getList().map { dbModelList ->
+            dbModelList.map { dbModel ->
+                recommendationMapper.mapDbModelToEntity(dbModel = dbModel)
+            }
         }
     }
 }
