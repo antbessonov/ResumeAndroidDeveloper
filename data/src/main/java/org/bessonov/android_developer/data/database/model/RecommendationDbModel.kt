@@ -11,7 +11,7 @@ data class RecommendationDbModel(
     @ColumnInfo(name = "name_recommender")
     val nameRecommender: String,
     @ColumnInfo(name = "photo_recommender")
-    val photoRecommender: String,
+    val photoRecommender: Int,
     @ColumnInfo(name = "job_title_recommender")
     val jobTitleRecommender: String,
     @ColumnInfo(name = "name_company_recommender")
