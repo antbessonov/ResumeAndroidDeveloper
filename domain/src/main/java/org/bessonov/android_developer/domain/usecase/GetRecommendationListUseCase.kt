@@ -1,4 +1,4 @@
-package org.bessonov.android_developer.domain
+package org.bessonov.android_developer.domain.usecase
 
 import org.bessonov.android_developer.domain.model.Recommendation
 import org.bessonov.android_developer.domain.repository.RecommendationRepository
