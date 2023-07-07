@@ -1,20 +1,20 @@
 package org.bessonov.android_developer.model.converter
 
-import org.bessonov.android_developer.domain.model.Skill
-import org.bessonov.android_developer.model.SkillUi
+import org.bessonov.android_developer.domain.model.HardSkill
+import org.bessonov.android_developer.model.HardSkillUi
 import org.bessonov.android_developer.model.StoredLogoSkillDrawable
 import javax.inject.Inject
 
-class SkillUiConverter @Inject constructor() {
+class HardSkillUiConverter @Inject constructor() {
 
-    fun convertEntityListToUiModelList(entityList: List<Skill>): List<SkillUi> {
+    fun convertEntityListToUiModelList(entityList: List<HardSkill>): List<HardSkillUi> {
         return entityList.map { entity ->
             convertEntityToUiModel(entity = entity)
         }
     }
 
-    private fun convertEntityToUiModel(entity: Skill): SkillUi {
-        return SkillUi(
+    private fun convertEntityToUiModel(entity: HardSkill): HardSkillUi {
+        return HardSkillUi(
             name = convertNameToCapName(name = entity.name),
             logo = convertLogo(logo = entity.logo)
         )
