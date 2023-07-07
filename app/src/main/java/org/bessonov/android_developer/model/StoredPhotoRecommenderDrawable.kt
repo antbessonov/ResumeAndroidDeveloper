@@ -7,9 +7,7 @@ enum class StoredPhotoRecommenderDrawable(
     @DrawableRes val resId: Int,
     val storedPhoto: Int
 ) {
-    //TODO("Добавить defalt-иконку")
-    DEFAULT(R.drawable.evgeniy_bessonov_400_400, -1),
-    EVGENIY(R.drawable.evgeniy_bessonov_400_400, 1);
+    EVGENIY(R.drawable.evgeniy_bessonov, 1);
 
     companion object {
 
