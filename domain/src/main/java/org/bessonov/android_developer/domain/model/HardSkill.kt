@@ -1,6 +1,6 @@
 package org.bessonov.android_developer.domain.model
 
-data class Skill(
+data class HardSkill(
     val name: String,
     val logo: Int?
 )
