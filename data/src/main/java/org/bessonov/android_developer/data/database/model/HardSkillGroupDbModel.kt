@@ -4,9 +4,9 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "skill_groups")
-data class SkillGroupDbModel(
+@Entity(tableName = "hard_skill_groups")
+data class HardSkillGroupDbModel(
     @PrimaryKey
-    @ColumnInfo(name = "name_skill_group")
+    @ColumnInfo(name = "name_hard_skill_group")
     val name: String
 )
