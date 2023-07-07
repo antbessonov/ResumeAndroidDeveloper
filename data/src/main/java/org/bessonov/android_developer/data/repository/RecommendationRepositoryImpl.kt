@@ -13,10 +13,12 @@ class RecommendationRepositoryImpl(
 ) : RecommendationRepository {
 
     override fun getList(): Flow<List<Recommendation>> {
-        return recommendationDao.getList().map { dbModelList ->
-            dbModelList.map { dbModel ->
-                recommendationMapper.mapDbModelToEntity(dbModel = dbModel)
+        return recommendationDao.getList()
+            .map { dbModelList ->
+                dbModelList
+                    .map { dbModel ->
+                        recommendationMapper.mapDbModelToEntity(dbModel = dbModel)
+                    }
             }
-        }
     }
 }
