@@ -1,6 +1,6 @@
 package org.bessonov.android_developer.model
 
-data class SkillGroupUi(
+data class HardSkillGroupUi(
     val name: String,
-    val skillList: List<SkillUi>
+    val hardSkillList: List<HardSkillUi>
 )
