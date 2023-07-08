@@ -11,8 +11,10 @@ import javax.inject.Singleton
 class GitHubProjectUiListAdapter @Inject constructor() :
     ListAdapter<GitHubProjectUi, GitHubProjectUiViewHolder>(GitHubProjectUiDiffCallback) {
 
+    var onClick: ((Int) -> Unit)? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GitHubProjectUiViewHolder {
-        return GitHubProjectUiViewHolder(parent = parent)
+        return GitHubProjectUiViewHolder(parent = parent, onClick = onClick)
     }
 
     override fun onBindViewHolder(holder: GitHubProjectUiViewHolder, position: Int) {

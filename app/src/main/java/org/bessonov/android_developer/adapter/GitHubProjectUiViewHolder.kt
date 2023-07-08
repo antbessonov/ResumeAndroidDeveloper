@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import org.bessonov.android_developer.R
 import org.bessonov.android_developer.databinding.GithubProjectItemBinding
 
-class GitHubProjectUiViewHolder(val parent: ViewGroup) : RecyclerView.ViewHolder(
+class GitHubProjectUiViewHolder(val parent: ViewGroup, onClick: ((Int) -> Unit)?) : RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context).inflate(
         R.layout.github_project_item,
         parent,
@@ -18,5 +18,9 @@ class GitHubProjectUiViewHolder(val parent: ViewGroup) : RecyclerView.ViewHolder
     init {
         val gitHubProjectUiHardSkillListAdapter = GitHubProjectUiHardSkillListAdapter()
         binding.hardSkillListRv.adapter = gitHubProjectUiHardSkillListAdapter
+
+        binding.root.setOnClickListener {
+            onClick?.invoke(adapterPosition)
+        }
     }
 }
