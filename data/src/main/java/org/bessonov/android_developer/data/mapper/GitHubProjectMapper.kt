@@ -44,7 +44,7 @@ class GitHubProjectMapper(
         return GitHubProject(
             name = dbModel.name,
             description = dbModel.description,
-            dateCreation = dbModel.dateCreation,
+            dateUpdate = dbModel.dateUpdate,
             hardSkillGroupList = gitHubProjectHardSkillMapper.mapDbModelListToEntityList(
                 name = dbModel.name,
                 dbModelList = gitHubProjectHardSkillDbModelList,
@@ -58,7 +58,7 @@ class GitHubProjectMapper(
         return GitHubProjectDbModel(
             name = dto.name,
             description = dto.description,
-            dateCreation = dto.dateCreation,
+            dateUpdate = dto.dateCreation,
         )
     }
 }

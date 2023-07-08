@@ -21,7 +21,7 @@ class GitHubProjectUiConverter @Inject constructor(
         return GitHubProjectUi(
             name = entity.name,
             description = entity.description,
-            dateCreation = entity.dateCreation,
+            dateUpdate = entity.dateUpdate,
             hardSkillList = convertHardSkillGroupList(list = entity.hardSkillGroupList)
         )
     }
