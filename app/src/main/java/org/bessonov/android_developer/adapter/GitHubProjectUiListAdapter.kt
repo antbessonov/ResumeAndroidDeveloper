@@ -2,6 +2,7 @@ package org.bessonov.android_developer.adapter
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
+import org.bessonov.android_developer.R
 import org.bessonov.android_developer.databinding.GithubProjectItemBinding
 import org.bessonov.android_developer.model.GitHubProjectUi
 import javax.inject.Inject
@@ -26,9 +27,13 @@ class GitHubProjectUiListAdapter @Inject constructor() :
         binding: GithubProjectItemBinding,
         gitHubProject: GitHubProjectUi
     ) {
+        val resources = binding.root.resources
         binding.nameTv.text = gitHubProject.name
         binding.descriptionTv.text = gitHubProject.description
         (binding.hardSkillListRv.adapter as GitHubProjectUiHardSkillListAdapter)
             .submitList(gitHubProject.hardSkillList)
+        binding.dateUpdateTv.text = resources.getString(
+            R.string.date_update, gitHubProject.dateUpdate
+        )
     }
 }

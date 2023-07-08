@@ -34,18 +34,29 @@
             android:id="@+id/description_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/name_tv"
             tools:text="Приложение для поиска информации о карте по BIN." />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/hard_skill_list_rv"
+            android:layout_marginTop="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layoutManager="com.google.android.flexbox.FlexboxLayoutManager"
             android:orientation="horizontal"
+            app:layoutManager="com.google.android.flexbox.FlexboxLayoutManager"
             app:layout_constraintTop_toBottomOf="@id/description_tv"
             tools:listitem="@layout/github_project_hard_skill_item" />
+
+        <TextView
+            android:id="@+id/date_update_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/hard_skill_list_rv" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
