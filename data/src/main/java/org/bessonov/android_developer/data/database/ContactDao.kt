@@ -8,6 +8,6 @@ import org.bessonov.android_developer.data.database.model.ContactDbModel
 @Dao
 interface ContactDao {
 
-    @Query("SELECT * FROM contact.xml LIMIT 1")
+    @Query("SELECT * FROM contacts LIMIT 1")
     fun get(): Flow<ContactDbModel>
 }

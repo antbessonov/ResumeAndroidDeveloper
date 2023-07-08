@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "contact.xml")
+@Entity(tableName = "contacts")
 data class ContactDbModel(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
