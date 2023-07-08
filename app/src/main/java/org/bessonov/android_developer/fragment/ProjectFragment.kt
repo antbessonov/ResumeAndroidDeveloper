@@ -49,7 +49,7 @@ class ProjectFragment : Fragment(R.layout.fragment_project) {
     }
 
     private fun setGitHubProjectAdapter() {
-        binding.projectListRv.adapter = gitHubProjectAdapter
+        binding.githubProjectListRv.adapter = gitHubProjectAdapter
     }
 
     private fun setRefreshListener() {
