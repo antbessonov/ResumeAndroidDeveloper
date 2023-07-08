@@ -17,6 +17,6 @@ class GitHubProjectUiViewHolder(val parent: ViewGroup) : RecyclerView.ViewHolder
 
     init {
         val gitHubProjectUiHardSkillListAdapter = GitHubProjectUiHardSkillListAdapter()
-        binding.listRv.adapter = gitHubProjectUiHardSkillListAdapter
+        binding.hardSkillListRv.adapter = gitHubProjectUiHardSkillListAdapter
     }
 }

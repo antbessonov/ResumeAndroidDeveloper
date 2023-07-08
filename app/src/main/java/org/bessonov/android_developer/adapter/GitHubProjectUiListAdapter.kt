@@ -26,7 +26,7 @@ class GitHubProjectUiListAdapter @Inject constructor() :
     ) {
         binding.nameTv.text = gitHubProject.name
         binding.descriptionTv.text = gitHubProject.description
-        (binding.listRv.adapter as GitHubProjectUiHardSkillListAdapter)
+        (binding.hardSkillListRv.adapter as GitHubProjectUiHardSkillListAdapter)
             .submitList(gitHubProject.hardSkillList)
     }
 }
