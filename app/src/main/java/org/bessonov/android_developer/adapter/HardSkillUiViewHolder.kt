@@ -4,16 +4,16 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import org.bessonov.android_developer.R
-import org.bessonov.android_developer.databinding.SkillItemBinding
+import org.bessonov.android_developer.databinding.HardSkillItemBinding
 
 class HardSkillUiViewHolder(
     val parent: ViewGroup
 ) : RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context).inflate(
-        R.layout.skill_item,
+        R.layout.hard_skill_item,
         parent,
         false
     )
 ) {
-    val binding = SkillItemBinding.bind(itemView)
+    val binding = HardSkillItemBinding.bind(itemView)
 }

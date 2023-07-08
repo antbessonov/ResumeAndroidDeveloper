@@ -2,7 +2,7 @@ package org.bessonov.android_developer.adapter
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
-import org.bessonov.android_developer.databinding.SkillGroupItemBinding
+import org.bessonov.android_developer.databinding.HardSkillGroupItemBinding
 import org.bessonov.android_developer.model.HardSkillGroupUi
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -24,10 +24,10 @@ class HardSkillGroupUiListAdapter @Inject constructor() :
     }
 
     private fun setProgrammingLanguageContent(
-        binding: SkillGroupItemBinding,
+        binding: HardSkillGroupItemBinding,
         skillGroup: HardSkillGroupUi
     ) {
         binding.nameTv.text = skillGroup.name
-        (binding.skillListRv.adapter as HardSkillUiListAdapter).submitList(skillGroup.hardSkillList)
+        (binding.hardSkillListRv.adapter as HardSkillUiListAdapter).submitList(skillGroup.hardSkillList)
     }
 }

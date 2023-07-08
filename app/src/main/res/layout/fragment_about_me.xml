@@ -133,7 +133,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/skill_list_title_tv"
             tools:itemCount="2"
-            tools:listitem="@layout/skill_group_item" />
+            tools:listitem="@layout/hard_skill_group_item" />
 
         <View
             android:id="@+id/recommendation_list_background"
