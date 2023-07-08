@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/project"
+    app:startDestination="@id/navigation_project">
+
+    <fragment
+        android:id="@+id/navigation_project"
+        android:name="org.bessonov.android_developer.fragment.ProjectFragment"
+        android:label="ProjectFragment"
+        tools:layout="@layout/fragment_project">
+        <action
+            android:id="@+id/action_navigation_project_to_navigation_loading_error"
+            app:destination="@id/navigation_loading_error" />
+        <argument
+            android:name="loadingError"
+            app:argType="string" />
+    </fragment>
+
+    <dialog
+        android:id="@+id/navigation_loading_error"
+        android:name="org.bessonov.android_developer.fragment.LoadingErrorDialogFragment"
+        android:label="LoadingErrorDialogFragment" />
+
+</navigation>
