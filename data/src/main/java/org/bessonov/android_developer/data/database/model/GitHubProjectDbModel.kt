@@ -10,6 +10,6 @@ class GitHubProjectDbModel(
     @ColumnInfo(name = "name_github_project")
     val name: String,
     val description: String,
-    @ColumnInfo(name = "updated_at")
+    @ColumnInfo(name = "date_update")
     val dateUpdate: String
 )

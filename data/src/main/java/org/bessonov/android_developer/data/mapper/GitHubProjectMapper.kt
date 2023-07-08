@@ -58,7 +58,7 @@ class GitHubProjectMapper(
         return GitHubProjectDbModel(
             name = dto.name,
             description = dto.description,
-            dateUpdate = dto.dateCreation,
+            dateUpdate = dto.dateUpdate,
         )
     }
 }
