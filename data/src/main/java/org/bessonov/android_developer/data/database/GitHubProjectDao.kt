@@ -10,6 +10,6 @@ interface GitHubProjectDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertList(gitHubProjectList: List<GitHubProjectDbModel>)
 
-    @Query("SELECT * FROM github_projects")
+    @Query("SELECT * FROM github_projects ORDER BY date_update DESC")
     fun getList(): Flow<List<GitHubProjectDbModel>>
 }
