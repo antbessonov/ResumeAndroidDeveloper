@@ -11,5 +11,5 @@ class GitHubProjectDbModel(
     val name: String,
     val description: String,
     @ColumnInfo(name = "date_update")
-    val dateUpdate: String
+    val dateUpdate: Long
 )
