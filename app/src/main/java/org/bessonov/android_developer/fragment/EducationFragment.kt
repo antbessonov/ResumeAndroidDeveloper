@@ -64,11 +64,9 @@ class EducationFragment : Fragment(R.layout.fragment_education) {
             when (education.group) {
                 EducationGroup.BASIC -> {
                     binding.educationGroupBtn.check(R.id.basic_education_btn)
-                    binding.educationListRv.scrollToPosition(START_POSITION)
                 }
                 EducationGroup.ADDITIONAL -> {
                     binding.educationGroupBtn.check(R.id.additional_education_btn)
-                    binding.educationListRv.scrollToPosition(START_POSITION)
                 }
             }
         }
@@ -103,15 +101,10 @@ class EducationFragment : Fragment(R.layout.fragment_education) {
         hideLoadingProgress()
         binding.educationListRv.visibility = View.VISIBLE
         educationListAdapter.submitList(state.educationList)
-        binding.educationListRv.scheduleLayoutAnimation()
+        binding.educationListRv.startLayoutAnimation()
     }
 
     private fun hideLoadingProgress() {
         binding.loadingProgress.visibility = View.GONE
-    }
-
-    companion object {
-
-        private const val START_POSITION = 0
     }
 }
