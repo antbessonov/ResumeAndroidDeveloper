@@ -20,7 +20,7 @@
 
     <dialog
         android:id="@+id/navigation_loading_error"
-        android:name="org.bessonov.android_developer.fragment.LoadingErrorDialogFragment"
+        android:name="org.bessonov.android_developer.fragment.ErrorMessageDialogFragment"
         android:label="LoadingErrorDialogFragment" />
 
 </navigation>
