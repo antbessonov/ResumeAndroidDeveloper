@@ -13,5 +13,7 @@ sealed class ContactState {
         val linkedinId: String,
         val githubId: String,
         val myGeo: LatLng,
+        val isInternetConnection: Boolean,
+        val isUpdateMapProgress: Boolean
     ) : ContactState()
 }
