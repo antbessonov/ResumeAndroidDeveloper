@@ -1,0 +1,393 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "c35ff45c6c514bdbbfbcf712898a2bca",
+    "entities": [
+      {
+        "tableName": "hard_skill_groups",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`name_hard_skill_group` TEXT NOT NULL, PRIMARY KEY(`name_hard_skill_group`))",
+        "fields": [
+          {
+            "fieldPath": "name",
+            "columnName": "name_hard_skill_group",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "name_hard_skill_group"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "hard_skills",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`name_hard_skill` TEXT NOT NULL, `logo` INTEGER, `name_hard_skill_group` TEXT NOT NULL, PRIMARY KEY(`name_hard_skill`), FOREIGN KEY(`name_hard_skill_group`) REFERENCES `hard_skill_groups`(`name_hard_skill_group`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "fields": [
+          {
+            "fieldPath": "name",
+            "columnName": "name_hard_skill",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "logo",
+            "columnName": "logo",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "nameHardSkillGroup",
+            "columnName": "name_hard_skill_group",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "name_hard_skill"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_hard_skills_name_hard_skill_group",
+            "unique": false,
+            "columnNames": [
+              "name_hard_skill_group"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_hard_skills_name_hard_skill_group` ON `${TABLE_NAME}` (`name_hard_skill_group`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "hard_skill_groups",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "name_hard_skill_group"
+            ],
+            "referencedColumns": [
+              "name_hard_skill_group"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "recommendations",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`text` TEXT NOT NULL, `name_recommender` TEXT NOT NULL, `photo_recommender` INTEGER NOT NULL, `job_title_recommender` TEXT NOT NULL, `name_company_recommender` TEXT NOT NULL, PRIMARY KEY(`name_recommender`))",
+        "fields": [
+          {
+            "fieldPath": "text",
+            "columnName": "text",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nameRecommender",
+            "columnName": "name_recommender",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "photoRecommender",
+            "columnName": "photo_recommender",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "jobTitleRecommender",
+            "columnName": "job_title_recommender",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nameCompanyRecommender",
+            "columnName": "name_company_recommender",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "name_recommender"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "github_projects",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`name_github_project` TEXT NOT NULL, `description` TEXT NOT NULL, `date_update` INTEGER NOT NULL, PRIMARY KEY(`name_github_project`))",
+        "fields": [
+          {
+            "fieldPath": "name",
+            "columnName": "name_github_project",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dateUpdate",
+            "columnName": "date_update",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "name_github_project"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "github_project_skills",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`name_github_project` TEXT NOT NULL, `name_hard_skill` TEXT NOT NULL, PRIMARY KEY(`name_github_project`, `name_hard_skill`), FOREIGN KEY(`name_github_project`) REFERENCES `github_projects`(`name_github_project`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`name_hard_skill`) REFERENCES `hard_skills`(`name_hard_skill`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "fields": [
+          {
+            "fieldPath": "nameGitHubProject",
+            "columnName": "name_github_project",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nameHardSkill",
+            "columnName": "name_hard_skill",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "name_github_project",
+            "name_hard_skill"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_github_project_skills_name_github_project",
+            "unique": false,
+            "columnNames": [
+              "name_github_project"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_github_project_skills_name_github_project` ON `${TABLE_NAME}` (`name_github_project`)"
+          },
+          {
+            "name": "index_github_project_skills_name_hard_skill",
+            "unique": false,
+            "columnNames": [
+              "name_hard_skill"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_github_project_skills_name_hard_skill` ON `${TABLE_NAME}` (`name_hard_skill`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "github_projects",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "name_github_project"
+            ],
+            "referencedColumns": [
+              "name_github_project"
+            ]
+          },
+          {
+            "table": "hard_skills",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "name_hard_skill"
+            ],
+            "referencedColumns": [
+              "name_hard_skill"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "education_groups",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`name_education_group` TEXT NOT NULL, PRIMARY KEY(`name_education_group`))",
+        "fields": [
+          {
+            "fieldPath": "name",
+            "columnName": "name_education_group",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "name_education_group"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "educations",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `name_education_group` TEXT NOT NULL, `degree` TEXT, `company` TEXT NOT NULL, `date_start` TEXT, `date_end` TEXT NOT NULL, FOREIGN KEY(`name_education_group`) REFERENCES `education_groups`(`name_education_group`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "group",
+            "columnName": "name_education_group",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "degree",
+            "columnName": "degree",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "company",
+            "columnName": "company",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dateStart",
+            "columnName": "date_start",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "dateEnd",
+            "columnName": "date_end",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_educations_name_education_group",
+            "unique": false,
+            "columnNames": [
+              "name_education_group"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_educations_name_education_group` ON `${TABLE_NAME}` (`name_education_group`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "education_groups",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "name_education_group"
+            ],
+            "referencedColumns": [
+              "name_education_group"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "contacts",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `telegram_id` TEXT NOT NULL, `mail` TEXT NOT NULL, `tel` TEXT NOT NULL, `linkedin_id` TEXT NOT NULL, `github_id` TEXT NOT NULL, `latitude` REAL NOT NULL, `longitude` REAL NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "telegramId",
+            "columnName": "telegram_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mail",
+            "columnName": "mail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "tel",
+            "columnName": "tel",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "linkedinId",
+            "columnName": "linkedin_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "githubId",
+            "columnName": "github_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "latitude",
+            "columnName": "latitude",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "longitude",
+            "columnName": "longitude",
+            "affinity": "REAL",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c35ff45c6c514bdbbfbcf712898a2bca')"
+    ]
+  }
+}
