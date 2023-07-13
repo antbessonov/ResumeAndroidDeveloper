@@ -1,3 +1,58 @@
 <resources>
+
     <string name="app_name">Android Developer</string>
+
+    <string name="home">Главная</string>
+    <string name="project">Проекты</string>
+    <string name="education">Образование</string>
+    <string name="contact">Контакты</string>
+
+    <string name="hello">Привет!</string>
+    <string name="my_name">Меня зовут\nАнтон.</string>
+    <string name="android_developer">Я Android-developer.</string>
+    <string name="in_jacket">Пусть и в пиджаке 😉</string>
+
+    <string name="my_skills">Мои навыки</string>
+    <string name="hard_skill_logo">Логотип</string>
+
+    <string name="recommendation_list_title">Что обо мне говорят</string>
+    <string name="job_title_with_company_name">%1$s, %2$s</string>
+    <string name="add_recommendation">Оставить отзыв</string>
+    <string name="leave_review_or_recommendation">Оставить отзыв или рекомендацию</string>
+    <string name="recommendation_list_tabs">Выбрать вкладку</string>
+
+    <string name="github_project_list_title">Мои проекты на GitHub</string>
+    <string name="empty_github_project_list_title">Для загрузки требуется\nподключение к Интернету.\n\nПроверьте подключение\nи обновите экран.</string>
+    <string name="date_update">Обновлен %1$s</string>
+
+    <string name="network_problem">Ошибка сети</string>
+    <string name="error_network_problem_description">Пожалуйста, проверьте подключение к сети и
+        повторите попытку.</string>
+    <string name="something_went_wrong">Ошибка</string>
+    <string name="error_something_went_wrong_description">Возникла проблема. Повторите попытку
+        позже. Если проблема не исчезнет, свяжитесь с техподдержкой.</string>
+    <string name="operation_error">Ошибка операции</string>
+    <string name="error_operation_failed_description">Не удалось выполнить операцию.
+        Подходящее приложение не найдено.</string>
+    <string name="clear">Понятно</string>
+
+    <string name="education_title">@string/education</string>
+    <string name="basic_education">Основное</string>
+    <string name="additional_education">Дополнительное</string>
+    <string name="education_name_with_degree">%1$s, %2$s</string>
+    <string name="education_data_start_with_end">%1$s - %2$s</string>
+
+    <string name="feedback">Обратная\nсвязь</string>
+    <string name="write_telegram">Написать\nв Telegram</string>
+    <string name="show_all_contacts">Показать все контакты</string>
+    <string name="telegram">Telegram</string>
+    <string name="email">Email</string>
+    <string name="tel">Телефон</string>
+    <string name="my_geo_marker_title">Место нахождения</string>
+    <string name="default_map_title">@string/my_geo_marker_title</string>
+    <string name="view_profile_linkedin">Посмотреть профиль в Linkedin</string>
+    <string name="view_profile_github">Посмотреть профиль на GitHub</string>
+    <string name="default_map_description">Для отображения требуется\nподключение к Интернету.\n\nПроверьте подключение и обновите.</string>
+    <string name="update">Обновить</string>
+
 </resources>
