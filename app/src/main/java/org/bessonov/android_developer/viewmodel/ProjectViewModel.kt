@@ -5,9 +5,12 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import org.bessonov.android_developer.domain.model.GitHubProject
 import org.bessonov.android_developer.domain.usecase.GetGitHubProjectListUseCase
 import org.bessonov.android_developer.domain.usecase.LoadGitHubProjectListUseCase
+import org.bessonov.android_developer.domain.util.ErrorMessage
 import org.bessonov.android_developer.domain.util.LoadingResult
+import org.bessonov.android_developer.domain.util.OperationFailed
 import org.bessonov.android_developer.model.converter.GitHubProjectUiConverter
 import org.bessonov.android_developer.state.ProjectState
 import org.bessonov.android_developer.util.mutableStateIn
@@ -20,21 +23,14 @@ class ProjectViewModel @Inject constructor(
     private val gitHubProjectUiConverter: GitHubProjectUiConverter
 ) : ViewModel() {
 
-    private val loadingResult: MutableStateFlow<LoadingResult?> = MutableStateFlow(null)
-
-    private val isLoadingResultReceived: Flow<Boolean?> = loadingResult
-        .map { loadingResult ->
-            isLoadingResultReceived(loadingResult = loadingResult)
-        }
+    private val loadingResult: MutableStateFlow<LoadingResult> =
+        MutableStateFlow(LoadingResult.Loading)
 
     val uiState: StateFlow<ProjectState> = combine(
         getGitHubProjectListUseCase(),
-        isLoadingResultReceived
-    ) { gitHubProjectList, isLoadingResultReceived ->
-        ProjectState.Success(
-            gitHubProjectList = gitHubProjectUiConverter.convertEntityListToUiModelList(gitHubProjectList),
-            isLoadingResultReceived = isLoadingResultReceived
-        )
+        loadingResult
+    ) { gitHubProjectList, loadingResult ->
+        getProjectState(loadingResult, gitHubProjectList)
     }
         .stateIn(
             scope = viewModelScope,
@@ -42,7 +38,7 @@ class ProjectViewModel @Inject constructor(
             initialValue = ProjectState.Loading
         )
 
-    val loadingError = loadingResult
+    private val _errorMessage: MutableStateFlow<ErrorMessage?> = loadingResult
         .filter { loadingResult ->
             loadingResult is LoadingResult.Error
         }
@@ -53,6 +49,7 @@ class ProjectViewModel @Inject constructor(
             scope = viewModelScope,
             initialValue = null
         )
+    val errorMessage = _errorMessage.asStateFlow()
 
     init {
         loadGitHubProjectList()
@@ -66,15 +63,26 @@ class ProjectViewModel @Inject constructor(
         }
     }
 
-    fun hideLoadingError() {
-        loadingError.update { null }
+    fun hideErrorMessage() {
+        _errorMessage.update { null }
     }
 
-    private fun isLoadingResultReceived(loadingResult: LoadingResult?): Boolean? {
+    fun handleNavigationError() {
+        _errorMessage.update { OperationFailed }
+    }
+
+    private fun getProjectState(
+        loadingResult: LoadingResult,
+        gitHubProjectList: List<GitHubProject>
+    ): ProjectState {
         return when (loadingResult) {
-            LoadingResult.Loading -> false
-            LoadingResult.Success, is LoadingResult.Error -> true
-            null -> null
+            is LoadingResult.Loading -> ProjectState.Loading
+            is LoadingResult.Error, is LoadingResult.Success -> ProjectState.Success(
+                gitHubProjectList = gitHubProjectUiConverter.convertEntityListToUiModelList(
+                    gitHubProjectList
+                ),
+                loadingResult = loadingResult
+            )
         }
     }
 }
