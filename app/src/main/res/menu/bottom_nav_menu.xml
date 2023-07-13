@@ -17,8 +17,8 @@
         android:title="@string/education" />
 
     <item
-        android:id="@id/contacts"
+        android:id="@id/contact"
         android:icon="@drawable/contact"
-        android:title="@string/contacts" />
+        android:title="@string/contact" />
 
 </menu>
