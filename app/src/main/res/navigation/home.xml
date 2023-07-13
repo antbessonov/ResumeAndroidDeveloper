@@ -9,6 +9,18 @@
         android:id="@+id/navigation_about_me"
         android:name="org.bessonov.android_developer.fragment.AboutMeFragment"
         android:label="AboutMeFragment"
-        tools:layout="@layout/fragment_about_me" />
+        tools:layout="@layout/fragment_about_me">
+        <action
+            android:id="@+id/action_navigation_about_me_to_navigation_loading_error"
+            app:destination="@id/navigation_loading_error" />
+        <argument
+            android:name="loadingError"
+            app:argType="string" />
+    </fragment>
+
+    <dialog
+        android:id="@+id/navigation_loading_error"
+        android:name="org.bessonov.android_developer.fragment.ErrorMessageDialogFragment"
+        android:label="ErrorMessageDialogFragment" />
 
 </navigation>
