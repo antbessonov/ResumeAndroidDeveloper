@@ -82,7 +82,7 @@ object DataModule {
 
     @Provides
     @Singleton
-    fun provide(
+    fun provideContactRepository(
         contactDao: ContactDao,
         contactMapper: ContactMapper
     ): ContactRepository {
