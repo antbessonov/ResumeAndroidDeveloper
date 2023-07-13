@@ -4,19 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/transparent"
-    tools:background="#f8f7f1">
+    tools:background="@color/md_theme_light_surfaceVariantMid">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/recommendation_card"
+        style="@style/Theme.AndroidDeveloper.RecommendationCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="40dp"
         android:layout_marginEnd="16dp"
-        android:backgroundTint="@color/white"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="0dp"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -37,10 +34,10 @@ I rate his skills very highly.\"' />
 
             <View
                 android:id="@+id/border"
+                style="@style/Theme.AndroidDeveloper.BorderView"
                 android:layout_width="0dp"
                 android:layout_height="1dp"
                 android:layout_marginTop="16dp"
-                android:background="#1A000000"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/recommendation_tv" />
@@ -78,7 +75,7 @@ I rate his skills very highly.\"' />
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:shapeAppearanceOverlay="@style/PhotoRecommenderRounded"
+        app:shapeAppearanceOverlay="@style/Theme.AndroidDeveloper.PhotoRecommenderRounded"
         app:srcCompat="@drawable/evgeniy_bessonov"
         app:strokeColor="@android:color/white"
         app:strokeWidth="4dp" />

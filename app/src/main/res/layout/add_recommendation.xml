@@ -4,18 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/transparent"
-    tools:background="#f8f7f1">
+    tools:background="@color/md_theme_light_surfaceVariantMid">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/recommendation_card"
+        style="@style/Theme.AndroidDeveloper.RecommendationCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:background="@color/white"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -33,11 +30,9 @@
                 android:contentDescription="@string/add_recommendation"
                 android:minWidth="48dp"
                 app:icon="@drawable/add_icon"
-                app:iconTint="#1A000000"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:strokeColor="#1A000000" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/add_tv"
