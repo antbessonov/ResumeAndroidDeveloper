@@ -2,11 +2,13 @@ package org.bessonov.android_developer.fragment
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
@@ -16,6 +18,9 @@ import org.bessonov.android_developer.R
 import org.bessonov.android_developer.adapter.HardSkillGroupUiListAdapter
 import org.bessonov.android_developer.adapter.RecommendationViewPagerAdapter
 import org.bessonov.android_developer.databinding.FragmentAboutMeBinding
+import org.bessonov.android_developer.domain.util.ErrorMessage
+import org.bessonov.android_developer.domain.util.OperationFailed
+import org.bessonov.android_developer.fragment.ErrorMessageDialogFragment.Companion.OPERATION_FAILED
 import org.bessonov.android_developer.navigation.goToEmailApp
 import org.bessonov.android_developer.state.AboutMeState
 import org.bessonov.android_developer.util.*
@@ -45,6 +50,8 @@ class AboutMeFragment : Fragment(R.layout.fragment_about_me) {
         setSkillGroupListAdapter()
         setRecommendationViewPager()
         observeViewModelState()
+        observeErrorMessage()
+        setupErrorMessageDialogFragmentListener()
     }
 
     override fun onDestroyView() {
@@ -157,17 +164,56 @@ class AboutMeFragment : Fragment(R.layout.fragment_about_me) {
 
     private fun setAddRecommendationClickListener(state: AboutMeState.Success) {
         recommendationsAdapter.onAddRecommendationClick = {
-            goToEmailApp(context = requireContext(), mail = state.mail) {}
+            goToEmailApp(context = requireContext(), mail = state.mail) {
+                viewModel.handleNavigationError()
+            }
         }
+    }
+
+    private fun observeErrorMessage() {
+        viewModel.errorMessage
+            .flowWithLifecycle(
+                lifecycle = viewLifecycleOwner.lifecycle,
+                minActiveState = Lifecycle.State.RESUMED
+            )
+            .onEach { errorMessage -> handleErrorMessage(errorMessage = errorMessage) }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
+    }
+
+    private fun handleErrorMessage(errorMessage: ErrorMessage?) {
+        when (errorMessage) {
+            OperationFailed -> navigateErrorMessageDialogFragment(errorMessage = OPERATION_FAILED)
+            else -> Unit
+        }
+    }
+
+    @Suppress("SameParameterValue")
+    private fun navigateErrorMessageDialogFragment(errorMessage: String) {
+        if (findNavController().currentDestination?.id == R.id.navigation_about_me) {
+            findNavController()
+                .navigate(
+                    R.id.action_navigation_about_me_to_navigation_loading_error,
+                    bundleOf(ErrorMessageDialogFragment.ERROR_MESSAGE to errorMessage)
+                )
+        }
+    }
+
+    private fun setupErrorMessageDialogFragmentListener() {
+        ErrorMessageDialogFragment.setupListener(
+            manager = parentFragmentManager,
+            lifecycleOwner = this,
+            positiveListener = viewModel::hideErrorMessage,
+            cancelListener = viewModel::hideErrorMessage
+        )
     }
 
     companion object {
 
         private const val WITHOUT_OFFSET = 0L
-        private const val FIRST_OFFSET = 600L
-        private const val SECOND_OFFSET = 1200L
-        private const val THIRD_OFFSET = 1800L
-        private const val FOURTH_OFFSET = 2400L
+        private const val FIRST_OFFSET = 800L
+        private const val SECOND_OFFSET = 1600L
+        private const val THIRD_OFFSET = 2600L
+        private const val FOURTH_OFFSET = 2800L
     }
 }
 

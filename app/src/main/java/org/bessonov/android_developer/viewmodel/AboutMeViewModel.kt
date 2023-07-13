@@ -7,6 +7,8 @@ import kotlinx.coroutines.flow.*
 import org.bessonov.android_developer.domain.usecase.GetContactUseCase
 import org.bessonov.android_developer.domain.usecase.GetRecommendationListUseCase
 import org.bessonov.android_developer.domain.usecase.GetHardSkillGroupListUseCase
+import org.bessonov.android_developer.domain.util.ErrorMessage
+import org.bessonov.android_developer.domain.util.OperationFailed
 import org.bessonov.android_developer.model.converter.RecommendationUiConverter
 import org.bessonov.android_developer.model.converter.HardSkillGroupUiConverter
 import org.bessonov.android_developer.state.AboutMeState
@@ -51,7 +53,18 @@ class AboutMeViewModel @Inject constructor(
             initialValue = AboutMeState.Loading
         )
 
+    private val _errorMessage: MutableStateFlow<ErrorMessage?> = MutableStateFlow(null)
+    val errorMessage = _errorMessage.asStateFlow()
+
     fun greetingAnimShown() {
         isShowGreetingAnim.update { true }
+    }
+
+    fun hideErrorMessage() {
+        _errorMessage.update { null }
+    }
+
+    fun handleNavigationError() {
+        _errorMessage.update { OperationFailed }
     }
 }
