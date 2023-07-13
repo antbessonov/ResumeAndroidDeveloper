@@ -12,9 +12,9 @@ import androidx.lifecycle.LifecycleOwner
 import org.bessonov.android_developer.R
 import kotlin.properties.Delegates
 
-class LoadingErrorDialogFragment : DialogFragment() {
+class ErrorMessageDialogFragment : DialogFragment() {
 
-    private var loadingError by Delegates.notNull<String>()
+    private var errorMessage by Delegates.notNull<String>()
 
     private var title by Delegates.notNull<String>()
     private var message by Delegates.notNull<String>()
@@ -29,6 +29,12 @@ class LoadingErrorDialogFragment : DialogFragment() {
         return AlertDialog.Builder(requireContext())
             .setTitle(title)
             .setMessage(message)
+            .setPositiveButton(getString(R.string.clear)) { _, _ ->
+                setFragmentResult(
+                    requestKey = REQUEST_KEY,
+                    result = bundleOf(RESPONSE_KEY to POSITIVE)
+                )
+            }
             .create()
     }
 
@@ -39,15 +45,15 @@ class LoadingErrorDialogFragment : DialogFragment() {
 
     private fun parseParams() {
         val args = requireArguments()
-        val error = args.getString(LOADING_ERROR)
-        if (error != NETWORK_PROBLEM && error != SOMETHING_WENT_WRONG) {
-            throw RuntimeException("Unknown loading error: $error.")
+        val error = args.getString(ERROR_MESSAGE)
+        if (error != NETWORK_PROBLEM && error != SOMETHING_WENT_WRONG && error != OPERATION_FAILED) {
+            throw RuntimeException("Unknown error message: $error.")
         }
-        loadingError = error
+        errorMessage = error
     }
 
     private fun initialValue() {
-        when (loadingError) {
+        when (errorMessage) {
             NETWORK_PROBLEM -> {
                 title = resources.getString(R.string.network_problem)
                 message = resources.getString(R.string.error_network_problem_description)
@@ -56,29 +62,37 @@ class LoadingErrorDialogFragment : DialogFragment() {
                 title = resources.getString(R.string.something_went_wrong)
                 message = resources.getString(R.string.error_something_went_wrong_description)
             }
+            OPERATION_FAILED -> {
+                title = resources.getString(R.string.operation_error)
+                message = resources.getString(R.string.error_operation_failed_description)
+            }
         }
     }
 
     companion object {
 
-        private const val TAG: String = "LoadingErrorDialogFragment"
+        private const val TAG: String = "ErrorMessageDialogFragment"
         const val REQUEST_KEY = "$TAG:defaultRequestKey"
 
         const val RESPONSE_KEY = "RESPONSE"
         const val CANCEL = "cancel"
+        const val POSITIVE = "positive"
 
-        const val LOADING_ERROR = "loading_error"
+        const val ERROR_MESSAGE = "error_message"
 
         const val NETWORK_PROBLEM = "network_problem"
         const val SOMETHING_WENT_WRONG = "something_went_wrong"
+        const val OPERATION_FAILED = "operation_failed"
 
         fun setupListener(
             manager: FragmentManager,
             lifecycleOwner: LifecycleOwner,
-            cancelListener: () -> Unit
+            positiveListener: () -> Unit,
+            cancelListener: () -> Unit,
         ) {
             manager.setFragmentResultListener(REQUEST_KEY, lifecycleOwner) { _, result ->
                 when (result.getString(RESPONSE_KEY)) {
+                    POSITIVE -> positiveListener.invoke()
                     CANCEL -> cancelListener.invoke()
                 }
             }
