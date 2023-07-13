@@ -1,7 +1,6 @@
 package org.bessonov.android_developer.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -17,12 +16,12 @@ import kotlinx.coroutines.flow.onEach
 import org.bessonov.android_developer.R
 import org.bessonov.android_developer.adapter.GitHubProjectUiListAdapter
 import org.bessonov.android_developer.databinding.FragmentProjectBinding
-import org.bessonov.android_developer.domain.util.LoadingError
-import org.bessonov.android_developer.domain.util.NetworkProblem
-import org.bessonov.android_developer.domain.util.SomethingWentWrong
-import org.bessonov.android_developer.fragment.LoadingErrorDialogFragment.Companion.LOADING_ERROR
-import org.bessonov.android_developer.fragment.LoadingErrorDialogFragment.Companion.NETWORK_PROBLEM
-import org.bessonov.android_developer.fragment.LoadingErrorDialogFragment.Companion.SOMETHING_WENT_WRONG
+import org.bessonov.android_developer.domain.util.*
+import org.bessonov.android_developer.fragment.ErrorMessageDialogFragment.Companion.ERROR_MESSAGE
+import org.bessonov.android_developer.fragment.ErrorMessageDialogFragment.Companion.NETWORK_PROBLEM
+import org.bessonov.android_developer.fragment.ErrorMessageDialogFragment.Companion.OPERATION_FAILED
+import org.bessonov.android_developer.fragment.ErrorMessageDialogFragment.Companion.SOMETHING_WENT_WRONG
+import org.bessonov.android_developer.navigation.goToBrowser
 import org.bessonov.android_developer.state.ProjectState
 import org.bessonov.android_developer.viewmodel.ProjectViewModel
 import javax.inject.Inject
@@ -42,14 +41,25 @@ class ProjectFragment : Fragment(R.layout.fragment_project) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setGitHubProjectAdapter()
+        setGitHubProjectClickListener()
         setRefreshListener()
         observeViewModelState()
-        observeLoadingError()
-        setupLoadingErrorDialogFragmentListener()
+        observeErrorMessage()
+        setupErrorMessageDialogFragmentListener()
     }
 
     private fun setGitHubProjectAdapter() {
         binding.githubProjectListRv.adapter = gitHubProjectAdapter
+    }
+
+    private fun setGitHubProjectClickListener() {
+        gitHubProjectAdapter.onClick = { position ->
+            val gitHubProject = gitHubProjectAdapter.currentList[position]
+            goToBrowser(
+                context = requireContext(),
+                url = "github.com/antbessonov/${gitHubProject.name}"
+            ) { viewModel.handleNavigationError() }
+        }
     }
 
     private fun setRefreshListener() {
@@ -69,7 +79,6 @@ class ProjectFragment : Fragment(R.layout.fragment_project) {
     }
 
     private fun handleState(state: ProjectState) {
-        Log.d("QAS", state.toString())
         when (state) {
             is ProjectState.Loading -> reduce(state = state)
             is ProjectState.Success -> reduce(state = state)
@@ -86,55 +95,82 @@ class ProjectFragment : Fragment(R.layout.fragment_project) {
 
     private fun reduce(state: ProjectState.Success) {
         hideLoadingProgress()
-        binding.swipeRefreshLayout.visibility = View.VISIBLE
+        showSwipeRefreshLayout()
+        showEmptyGithubProjectList(state = state)
+        refreshStateChange(state = state)
         gitHubProjectAdapter.submitList(state.gitHubProjectList)
-        if (state.isLoadingResultReceived == true) {
-            binding.swipeRefreshLayout.isRefreshing = false
-        }
     }
 
     private fun hideLoadingProgress() {
         binding.loadingProgress.visibility = View.GONE
     }
 
-    private fun observeLoadingError() {
-        viewModel.loadingError
+    private fun showSwipeRefreshLayout() {
+        if (binding.swipeRefreshLayout.visibility != View.VISIBLE) {
+            binding.swipeRefreshLayout.visibility = View.VISIBLE
+        }
+    }
+
+    private fun refreshStateChange(state: ProjectState.Success) {
+        when (state.loadingResult) {
+            LoadingResult.Loading -> Unit
+            is LoadingResult.Success, is LoadingResult.Error -> {
+                binding.swipeRefreshLayout.isRefreshing = false
+            }
+        }
+    }
+
+    private fun showEmptyGithubProjectList(state: ProjectState.Success) {
+        if ((state.loadingResult is LoadingResult.Error).and(state.gitHubProjectList.isEmpty())) {
+            binding.emptyGithubProjectListIv.visibility = View.VISIBLE
+            binding.emptyGithubProjectListTitleTv.visibility = View.VISIBLE
+        } else {
+            binding.emptyGithubProjectListIv.visibility = View.GONE
+            binding.emptyGithubProjectListTitleTv.visibility = View.GONE
+        }
+    }
+
+    private fun observeErrorMessage() {
+        viewModel.errorMessage
             .flowWithLifecycle(
                 lifecycle = viewLifecycleOwner.lifecycle,
                 minActiveState = Lifecycle.State.RESUMED
             )
-            .onEach { loadingError -> handleLoadingError(loadingError = loadingError) }
+            .onEach { errorMessage -> handleErrorMessage(errorMessage = errorMessage) }
             .launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
-    private fun handleLoadingError(loadingError: LoadingError?) {
-        when (loadingError) {
+    private fun handleErrorMessage(errorMessage: ErrorMessage?) {
+        when (errorMessage) {
             NetworkProblem -> {
-                navigateLoadingErrorDialogFragment(loadingError = NETWORK_PROBLEM)
+                navigateErrorMessageDialogFragment(errorMessage = NETWORK_PROBLEM)
             }
             SomethingWentWrong -> {
-                navigateLoadingErrorDialogFragment(loadingError = SOMETHING_WENT_WRONG)
+                navigateErrorMessageDialogFragment(errorMessage = SOMETHING_WENT_WRONG)
+            }
+            OperationFailed -> {
+                navigateErrorMessageDialogFragment(errorMessage = OPERATION_FAILED)
             }
             null -> Unit
         }
     }
 
-    private fun navigateLoadingErrorDialogFragment(loadingError: String) {
+    private fun navigateErrorMessageDialogFragment(errorMessage: String) {
         if (findNavController().currentDestination?.id == R.id.navigation_project) {
             findNavController()
                 .navigate(
                     R.id.action_navigation_project_to_navigation_loading_error,
-                    bundleOf(LOADING_ERROR to loadingError)
+                    bundleOf(ERROR_MESSAGE to errorMessage)
                 )
         }
     }
 
-    private fun setupLoadingErrorDialogFragmentListener() {
-        LoadingErrorDialogFragment.setupListener(
+    private fun setupErrorMessageDialogFragmentListener() {
+        ErrorMessageDialogFragment.setupListener(
             manager = parentFragmentManager,
-            lifecycleOwner = this
-        ) {
-            viewModel.hideLoadingError()
-        }
+            lifecycleOwner = this,
+            positiveListener = viewModel::hideErrorMessage,
+            cancelListener = viewModel::hideErrorMessage
+        )
     }
 }
