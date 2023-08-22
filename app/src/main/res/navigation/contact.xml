@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigation_contact"
-        android:name="org.bessonov.android_developer.fragment.ContactFragment"
+        android:name="org.bessonov.android_developer.fragment.contact.ContactFragment"
         android:label="ContactFragment"
         tools:layout="@layout/fragment_contact" >
         <action
@@ -20,7 +20,7 @@
 
     <dialog
         android:id="@+id/navigation_loading_error"
-        android:name="org.bessonov.android_developer.fragment.ErrorMessageDialogFragment"
+        android:name="org.bessonov.android_developer.fragment.dialog.ErrorMessageDialogFragment"
         android:label="ErrorMessageDialogFragment" />
 
 </navigation>

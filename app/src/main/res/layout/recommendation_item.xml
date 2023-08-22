@@ -14,6 +14,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="40dp"
         android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -71,10 +72,11 @@ I rate his skills very highly.\"' />
         android:id="@+id/photo_recommender_tv"
         android:layout_width="96dp"
         android:layout_height="96dp"
+        android:layout_marginBottom="-48dp"
         android:padding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/recommendation_card"
         app:shapeAppearanceOverlay="@style/Theme.AndroidDeveloper.PhotoRecommenderRounded"
         app:srcCompat="@drawable/evgeniy_bessonov"
         app:strokeColor="@android:color/white"

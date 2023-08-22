@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:backgroundTint="?colorPrimary"
     android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -151,9 +152,9 @@
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/recommendation_list_vp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginTop="16dp"
-            android:minHeight="368dp"
+            android:minHeight="400dp"
             android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@id/recommendation_list_title_tv" />
 

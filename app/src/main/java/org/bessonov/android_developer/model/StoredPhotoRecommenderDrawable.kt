@@ -7,7 +7,8 @@ enum class StoredPhotoRecommenderDrawable(
     @DrawableRes val resId: Int,
     val storedPhoto: Int
 ) {
-    EVGENIY(R.drawable.evgeniy_bessonov, 1);
+    EVGENIY(R.drawable.evgeniy_bessonov, 1),
+    ALEXEY_RYABKOV(R.drawable.alexey_ryabkov, 2);
 
     companion object {
 
